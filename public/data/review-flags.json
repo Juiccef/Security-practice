@@ -1,0 +1,97 @@
+[
+  {
+    "id": "A1",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "A2",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "A3",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "A4",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "A5",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "A12",
+    "reason": "low-confidence-answer-split",
+    "detail": "Only matched 54% of choice A's text before assuming explanation start."
+  },
+  {
+    "id": "B1",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "B2",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "B3",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "B4",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "B5",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "B13",
+    "reason": "low-confidence-incorrect-split",
+    "detail": "Choice B: only matched 50% of its text."
+  },
+  {
+    "id": "C1",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "C2",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "C3",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "C4",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "C5",
+    "reason": "no-choices-found",
+    "detail": "Could not locate answer choice markers."
+  },
+  {
+    "id": "C16",
+    "reason": "letter-typo-corrected",
+    "detail": "Source printed \"E.\" where choice \"C\" was expected; matched by position."
+  },
+  {
+    "id": "C86",
+    "reason": "objective-exam-code-typo",
+    "detail": "Reference line printed \"SY0-601\" instead of \"SY0-701\"."
+  }
+]

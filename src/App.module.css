@@ -1,0 +1,40 @@
+.loading,
+.fatalError {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  text-align: center;
+  padding: var(--space-6);
+  color: var(--text-secondary);
+}
+
+.loadingMark {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border-strong);
+  border-top-color: var(--state-current);
+  animation: spin 0.8s linear infinite;
+}
+
+.fatalError h1 {
+  color: var(--text-primary);
+  font-size: var(--text-xl);
+}
+
+.fatalError code {
+  font-family: var(--font-mono);
+  background: var(--surface-overlay);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

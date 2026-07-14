@@ -1,0 +1,250 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  background: var(--surface-raised);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.headerLeft,
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.showOnCompact {
+  display: none;
+}
+
+.headerCenter {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.exitButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: var(--text-sm);
+  padding: var(--space-2);
+}
+
+.exitButton:hover {
+  color: var(--text-primary);
+}
+
+.modeBadge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-hairline);
+  color: var(--text-secondary);
+}
+
+.modeBadge[data-mode="timed"] {
+  color: var(--state-flagged);
+  border-color: var(--state-flagged-border);
+  background: var(--state-flagged-bg);
+}
+
+.progress {
+  font-size: var(--text-base);
+  color: var(--text-primary);
+}
+
+.progressOf {
+  color: var(--text-tertiary);
+}
+
+.paletteToggle {
+  display: none;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: 1px solid var(--border-hairline);
+  color: var(--text-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.submitButton {
+  background: var(--surface-overlay);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  border-color: var(--accent);
+  color: var(--accent-strong);
+}
+
+.body {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 17rem 1fr;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  max-width: 78rem;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.paletteRail {
+  min-height: 0;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.navHint {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  text-align: center;
+  flex: 1;
+}
+
+.navButton,
+.navButtonPrimary {
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-5);
+  font-weight: 600;
+  cursor: pointer;
+  font-size: var(--text-base);
+}
+
+.navButton {
+  background: none;
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.navButton:hover:not(:disabled) {
+  color: var(--text-primary);
+}
+
+.navButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.navButtonPrimary {
+  background: var(--accent);
+  border: none;
+  color: var(--text-on-accent);
+}
+
+.navButtonPrimary:hover {
+  background: var(--accent-strong);
+}
+
+@media (max-width: 56rem) {
+  .body {
+    grid-template-columns: 1fr;
+    padding: var(--space-4);
+  }
+
+  .paletteToggle {
+    display: inline-flex;
+  }
+
+  .navHint {
+    display: none;
+  }
+
+  .paletteRail {
+    display: none;
+  }
+
+  .paletteRailOpen {
+    display: block;
+    position: fixed;
+    inset: 6.5rem var(--space-4) auto;
+    max-height: 70vh;
+    z-index: 20;
+  }
+}
+
+/* Below this width the header can't fit exit / mode / progress / timer /
+   palette / submit on one line -- wrap it into two explicit rows instead of
+   letting content overflow. */
+@media (max-width: 34rem) {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "left right" "center center";
+    row-gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .headerLeft {
+    grid-area: left;
+  }
+
+  .headerRight {
+    grid-area: right;
+    justify-self: end;
+    gap: var(--space-2);
+  }
+
+  .headerCenter {
+    grid-area: center;
+  }
+
+  .modeBadge {
+    display: none;
+  }
+
+  .hideOnCompact {
+    display: none;
+  }
+
+  .showOnCompact {
+    display: inline;
+  }
+
+  .paletteToggle {
+    padding: var(--space-2);
+  }
+
+  .submitButton {
+    padding: var(--space-2) var(--space-3);
+  }
+}
