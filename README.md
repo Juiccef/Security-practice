@@ -57,9 +57,9 @@ Drop a JSON file matching this shape at `public/data/questions.json` (plus, opti
 
 ## How the app is put together
 
-- **Setup** (`src/screens/SetupScreen.tsx`): practice vs. timed mode, question count, domain filters, randomization, timer length, and pass mark. Also the home for resuming an in-progress attempt and browsing past results.
-- **Exam** (`src/screens/ExamScreen.tsx`): the question palette, the question card with radio/checkbox choices, flagging, the countdown timer, and the pre-submit confirmation.
-- **Results** (`src/screens/ResultsScreen.tsx`): score, pass/fail, a domain breakdown, and a filterable, expandable review of every question.
+- **Setup** (`src/screens/SetupScreen.tsx`): Study Mode vs. Simulation Mode, question count, category filters, randomization, time limit, passing score, and display options. Also the home for resuming an in-progress attempt and the attempt history table.
+- **Exam** (`src/screens/ExamScreen.tsx`): a three-band exam window: title bar, question toolbar (item counter, running score, "Select the N best answers" hint, Mark for review checkbox, timer), and a bottom toolbar with Previous / Next / Show Answer / Question Review / End and Grade. Question Review opens a sortable table dialog for jumping between questions.
+- **Results** (`src/screens/ResultsScreen.tsx`): a tabbed score report: Overall (score bar with pass-line marker), Category Breakdown (per-domain bars), Question Review (filterable table with expandable full explanations), and References.
 
 Question bank and grading logic live in `src/lib/` and know nothing about React; the screens and components in `src/screens/` and `src/components/` know nothing about how the bank was parsed. That split is what lets a new PDF or JSON file replace the question set without touching UI code.
 
@@ -67,11 +67,11 @@ Progress is saved to `localStorage` after every answer, so an in-progress attemp
 
 ## Design system
 
-The visual language is meant to evoke a security operations console rather than a generic quiz app: a graphite (not flat-black) surface, a muted structural blue for interactive chrome, and four saturated colors reserved strictly for meaning, correct, incorrect, flagged, and "this is the question you're on now". Question numbers, the timer, and scores use IBM Plex Mono with tabular figures; headings and the wordmark use Fraunces; body and interface text use IBM Plex Sans. Tokens are defined once in `src/styles/tokens.css`.
+The visual language is modeled on professional exam-simulation software in the vein of Boson ExSim: a light, clinical testing application rather than a website. White content on cool gray, thin 1px borders, one utilitarian blue for chrome and actions, and saturated color reserved strictly for verdicts (green correct, red incorrect, amber marked). Status is text, not iconography ("Question 9 of 90", "Time Remaining 88:24"), set in IBM Plex Mono with tabular figures; interface text is IBM Plex Sans. A dark theme is available via the toggle in the title bar and is applied entirely at the token level. Tokens are defined once in `src/styles/tokens.css` (light on `:root`, dark under `data-theme="dark"`).
 
 ## Keyboard support
 
 - Arrow Left / Right: previous / next question
 - Number keys or letter keys (1-9, A-H): select the answer choice in that position
-- F: flag the current question for review
-- Esc: close the submit confirmation dialog
+- M: mark the current question for review
+- Esc: close the Question Review or grading dialog

@@ -1,121 +1,120 @@
 .empty {
   color: var(--text-secondary);
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   border: 1px dashed var(--border-hairline);
   border-radius: var(--radius-md);
   padding: var(--space-5);
   text-align: center;
 }
 
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  list-style: none;
-}
-
-.item {
-  background: var(--surface-raised);
+.tableWrap {
+  overflow-x: auto;
   border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  border-radius: var(--radius-md);
 }
 
-.summaryRow {
+.table {
   width: 100%;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  background: none;
-  border: none;
-  padding: var(--space-4);
-  cursor: pointer;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.table th {
   text-align: left;
-}
-
-.qNumber {
-  color: var(--text-tertiary);
-  font-size: var(--text-sm);
-  width: 2ch;
-  flex-shrink: 0;
-}
-
-.statusDot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.statusDot[data-status="correct"] {
-  background: var(--state-correct);
-}
-
-.statusDot[data-status="incorrect"] {
-  background: var(--state-incorrect);
-}
-
-.statusDot[data-status="unanswered"] {
-  background: var(--text-tertiary);
-}
-
-.qStem {
-  flex: 1;
-  font-size: var(--text-sm);
-  color: var(--text-primary);
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: var(--surface-chrome);
+  border-bottom: 1px solid var(--border-hairline);
+  padding: var(--space-2) var(--space-3);
   white-space: nowrap;
 }
 
-.flagBadge {
-  flex-shrink: 0;
-  font-size: var(--text-xs);
-  color: var(--state-flagged);
-  background: var(--state-flagged-bg);
-  border: 1px solid var(--state-flagged-border);
-  border-radius: var(--radius-pill);
-  padding: 2px var(--space-2);
+.table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border-hairline);
+  vertical-align: top;
 }
 
-.chevron {
-  flex-shrink: 0;
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.row {
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--surface-hover);
+}
+
+.row[data-open="true"] {
+  background: var(--surface-selected);
+}
+
+.colItem {
+  width: 3rem;
+  color: var(--text-secondary);
+}
+
+.colScore {
+  width: 6.5rem;
+  white-space: nowrap;
+}
+
+.scoreCorrect {
+  color: var(--state-correct);
+  font-weight: 600;
+}
+
+.scoreIncorrect {
+  color: var(--state-incorrect);
+  font-weight: 600;
+}
+
+.scoreUnanswered {
   color: var(--text-tertiary);
-  display: inline-flex;
-  transition: transform 0.15s ease;
+  font-weight: 500;
 }
 
-.chevron[data-open="true"] {
-  transform: rotate(180deg);
+.colMarked {
+  width: 4.5rem;
+  text-align: center;
+}
+
+.markedCheck {
+  color: var(--state-marked);
+  font-weight: 700;
+}
+
+.colQuestion {
+  min-width: 16rem;
+  max-width: 30rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+
+.colCategory {
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+
+.detailRow td {
+  background: var(--surface-inset);
+  padding: var(--space-4);
 }
 
 .detail {
-  padding: 0 var(--space-4) var(--space-4);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  border-top: 1px solid var(--border-hairline);
+  max-width: 50rem;
 }
 
 .fullStem {
-  font-size: var(--text-base);
+  font-size: var(--text-md);
   color: var(--text-primary);
-  line-height: 1.5;
+  line-height: 1.55;
   white-space: pre-line;
-  padding-top: var(--space-4);
-}
-
-.unansweredNote {
-  font-size: var(--text-sm);
-  color: var(--state-flagged);
-  background: var(--state-flagged-bg);
-  border: 1px solid var(--state-flagged-border);
-  border-radius: var(--radius-md);
-  padding: var(--space-2) var(--space-3);
-}
-
-.referenceLink {
-  align-self: flex-start;
-  font-size: var(--text-sm);
-  color: var(--accent-strong);
 }

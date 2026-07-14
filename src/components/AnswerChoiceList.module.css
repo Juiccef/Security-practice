@@ -1,13 +1,8 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-2);
   list-style: none;
-}
-
-.item {
-  display: flex;
-  flex-direction: column;
 }
 
 .choiceRow {
@@ -17,12 +12,12 @@
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--border-hairline);
   border-radius: var(--radius-md);
-  background: var(--surface-overlay);
+  background: var(--surface-content);
   cursor: pointer;
-  transition: border-color 0.12s ease, background 0.12s ease;
 }
 
-.choiceRow:hover {
+.choiceRow:hover:not([data-locked="true"]) {
+  background: var(--surface-hover);
   border-color: var(--border-strong);
 }
 
@@ -30,91 +25,52 @@
   cursor: default;
 }
 
-.control {
-  display: inline-flex;
-  align-items: center;
-  padding-top: 0.15rem;
+.choiceRow:has(.input:checked):not([data-status="correct-selected"]):not([data-status="incorrect-selected"]) {
+  background: var(--surface-selected);
+  border-color: var(--accent-border);
+}
+
+.input {
+  width: 15px;
+  height: 15px;
+  margin: 3px 0 0;
+  accent-color: var(--accent);
   flex-shrink: 0;
 }
 
-.control input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-}
-
-.radio,
-.checkbox {
-  display: inline-block;
-  width: 18px;
-  height: 18px;
-  border: 1.5px solid var(--border-strong);
-  background: var(--surface-sunken);
+.letter {
   flex-shrink: 0;
-}
-
-.radio {
-  border-radius: 50%;
-}
-
-.checkbox {
-  border-radius: 4px;
-}
-
-.control input:checked + .radio,
-.control input:checked + .checkbox {
-  border-color: var(--accent);
-  background: var(--accent);
-  box-shadow: inset 0 0 0 3px var(--surface-overlay);
-}
-
-.letterBadge {
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-sm);
-  color: var(--text-tertiary);
-  width: 1.2em;
-}
-
-.choiceText {
-  flex: 1;
   font-size: var(--text-base);
+  color: var(--text-tertiary);
+  padding-top: 1px;
+}
+
+.text {
+  flex: 1;
+  font-size: var(--text-md);
   color: var(--text-primary);
   line-height: 1.5;
-  padding-top: 0.1rem;
 }
 
 .statusIcon {
   flex-shrink: 0;
   display: inline-flex;
   align-items: center;
-  padding-top: 0.15rem;
+  padding-top: 2px;
 }
 
-.explanation {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  line-height: 1.55;
-  padding: var(--space-2) var(--space-4) var(--space-1) var(--space-4);
-  margin-left: calc(18px + var(--space-3));
-  border-left: 2px solid var(--border-hairline);
-}
-
-/* --- Feedback states (practice mode, after check) --- */
-.choiceRow[data-status="correct-selected"] {
+/* --- Verdict states after the answer is revealed --- */
+.choiceRow[data-status="correct-selected"],
+.choiceRow[data-status="correct-missed"] {
   border-color: var(--state-correct-border);
   background: var(--state-correct-bg);
 }
-.choiceRow[data-status="correct-selected"] .statusIcon {
-  color: var(--state-correct);
-}
 
 .choiceRow[data-status="correct-missed"] {
-  border-color: var(--state-correct-border);
   border-style: dashed;
-  background: transparent;
 }
+
+.choiceRow[data-status="correct-selected"] .statusIcon,
 .choiceRow[data-status="correct-missed"] .statusIcon {
   color: var(--state-correct);
 }
@@ -123,19 +79,11 @@
   border-color: var(--state-incorrect-border);
   background: var(--state-incorrect-bg);
 }
+
 .choiceRow[data-status="incorrect-selected"] .statusIcon {
   color: var(--state-incorrect);
 }
 
 .choiceRow[data-status="neutral"] {
-  opacity: 0.65;
-}
-
-.explanation[data-status="correct-selected"],
-.explanation[data-status="correct-missed"] {
-  border-left-color: var(--state-correct);
-}
-
-.explanation[data-status="incorrect-selected"] {
-  border-left-color: var(--state-incorrect);
+  opacity: 0.72;
 }

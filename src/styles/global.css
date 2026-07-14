@@ -4,9 +4,6 @@
 @import "@fontsource/ibm-plex-mono/400.css";
 @import "@fontsource/ibm-plex-mono/500.css";
 @import "@fontsource/ibm-plex-mono/600.css";
-@import "@fontsource/fraunces/500.css";
-@import "@fontsource/fraunces/600.css";
-@import "@fontsource/fraunces/600-italic.css";
 @import "./tokens.css";
 
 *,
@@ -15,21 +12,14 @@
   box-sizing: border-box;
 }
 
-html {
-  color-scheme: dark;
-}
-
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(ellipse 1200px 600px at 15% -10%, rgba(91, 138, 176, 0.08), transparent 60%),
-    radial-gradient(ellipse 900px 500px at 100% 0%, rgba(79, 209, 229, 0.05), transparent 55%),
-    var(--surface-canvas);
+  background: var(--surface-canvas);
   color: var(--text-primary);
-  font-family: var(--font-body);
+  font-family: var(--font-ui);
   font-size: var(--text-base);
-  line-height: 1.55;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -40,10 +30,9 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-weight: 600;
   margin: 0;
-  letter-spacing: -0.01em;
 }
 
 p {
@@ -61,6 +50,10 @@ input, select, textarea {
 }
 
 a {
+  color: var(--accent);
+}
+
+a:hover {
   color: var(--accent-strong);
 }
 
@@ -69,7 +62,7 @@ ul, ol {
   padding: 0;
 }
 
-/* Tabular, data-forward numerals: timer, question numbers, scores */
+/* Tabular, data-forward numerals: timer, item counters, scores */
 .mono-figure {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
@@ -77,11 +70,11 @@ ul, ol {
 }
 
 ::selection {
-  background: var(--state-current-bg);
+  background: var(--surface-selected);
   color: var(--text-primary);
 }
 
-/* Keyboard focus is always visible, everywhere, and never relies on color alone */
+/* Keyboard focus is always visible, everywhere */
 :focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
@@ -103,7 +96,7 @@ a:focus-visible,
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border-strong);
-  border-radius: var(--radius-pill);
+  border-radius: 5px;
   border: 2px solid var(--surface-canvas);
 }
 ::-webkit-scrollbar-thumb:hover {

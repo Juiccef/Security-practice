@@ -36,34 +36,31 @@ export default function AnswerChoiceList({
                 : "neutral";
 
         return (
-          <li key={letter} className={styles.item}>
-            <label className={styles.choiceRow} data-status={status} data-locked={showFeedback || disabled}>
-              <span className={styles.control} aria-hidden="true">
-                <input
-                  type={isMulti ? "checkbox" : "radio"}
-                  name={`question-${question.id}`}
-                  checked={selected}
-                  disabled={showFeedback || disabled}
-                  onChange={() => onToggleChoice(letter)}
-                  tabIndex={-1}
-                />
-                <span className={isMulti ? styles.checkbox : styles.radio} />
+          <li key={letter}>
+            <label
+              className={styles.choiceRow}
+              data-status={status}
+              data-locked={showFeedback || disabled}
+            >
+              <input
+                className={styles.input}
+                type={isMulti ? "checkbox" : "radio"}
+                name={`question-${question.id}`}
+                checked={selected}
+                disabled={showFeedback || disabled}
+                onChange={() => onToggleChoice(letter)}
+              />
+              <span className={`${styles.letter} mono-figure`}>
+                {String.fromCharCode(65 + i)}.
               </span>
-              <span className={styles.letterBadge}>{String.fromCharCode(65 + i)}</span>
-              <span className={styles.choiceText}>{choice.text}</span>
+              <span className={styles.text}>{choice.text}</span>
               {showFeedback && (
                 <span className={styles.statusIcon} aria-hidden="true">
-                  {status === "correct-selected" && <CheckIcon />}
-                  {status === "correct-missed" && <CheckIcon muted />}
+                  {(status === "correct-selected" || status === "correct-missed") && <CheckIcon />}
                   {status === "incorrect-selected" && <CrossIcon />}
                 </span>
               )}
             </label>
-            {showFeedback && (
-              <p className={styles.explanation} data-status={status}>
-                {choice.explanation}
-              </p>
-            )}
           </li>
         );
       })}
@@ -71,9 +68,9 @@ export default function AnswerChoiceList({
   );
 }
 
-function CheckIcon({ muted }: { muted?: boolean }) {
+function CheckIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16" style={{ opacity: muted ? 0.6 : 1 }}>
+    <svg width="15" height="15" viewBox="0 0 16 16">
       <path
         d="M3 8.5 6.2 12 13 4"
         fill="none"
@@ -88,7 +85,7 @@ function CheckIcon({ muted }: { muted?: boolean }) {
 
 function CrossIcon() {
   return (
-    <svg width="16" height="16" viewBox="0 0 16 16">
+    <svg width="15" height="15" viewBox="0 0 16 16">
       <path
         d="M4 4l8 8M12 4l-8 8"
         fill="none"

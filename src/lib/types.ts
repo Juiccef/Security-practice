@@ -39,6 +39,10 @@ export interface SetupConfig {
   domainFilter: number[] | null;
   timeLimitMinutes: number;
   passMarkPercent: number;
+  /* Boson-style study display options. Optional so attempts saved before
+     these existed keep loading; read with `?? true`. */
+  showRunningScore?: boolean;
+  showSelectCount?: boolean;
 }
 
 export interface AttemptQuestionState {

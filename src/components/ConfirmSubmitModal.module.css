@@ -1,111 +1,116 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(6, 8, 11, 0.7);
-  backdrop-filter: blur(2px);
+  background: var(--overlay-scrim);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-4);
-  z-index: 100;
+  z-index: 110;
 }
 
-.modal {
+.dialog {
   width: 100%;
-  max-width: 26rem;
-  background: var(--surface-raised);
+  max-width: 24rem;
+  background: var(--surface-content);
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
-  padding: var(--space-6);
   box-shadow: var(--shadow-modal);
+  overflow: hidden;
+}
+
+.header {
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-chrome);
+  border-bottom: 1px solid var(--border-hairline);
 }
 
 .title {
-  font-size: var(--text-xl);
-  color: var(--text-primary);
-  margin-bottom: var(--space-3);
+  font-size: var(--text-md);
+  font-weight: 600;
 }
 
 .body {
-  color: var(--text-secondary);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.lead {
   font-size: var(--text-base);
-  margin-bottom: var(--space-5);
+  color: var(--text-secondary);
 }
 
-.stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
+.statsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-base);
 }
 
-.stat {
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
+.statsTable th {
+  text-align: left;
+  font-weight: 400;
+  color: var(--text-secondary);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-hairline);
 }
 
-.stat dt {
-  font-size: var(--text-xs);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.stat dd {
-  margin: 0;
-  font-size: var(--text-lg);
+.statsTable td {
+  text-align: right;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-top: var(--space-1);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-hairline);
 }
 
-.stat[data-warn="true"] dd {
-  color: var(--state-flagged);
-}
-
-.stat[data-flag="true"] dd {
-  color: var(--state-flagged);
+.statsTable tr[data-warn="true"] td {
+  color: var(--state-marked);
 }
 
 .warning {
-  background: var(--state-flagged-bg);
-  border: 1px solid var(--state-flagged-border);
-  color: var(--state-flagged);
+  background: var(--state-marked-bg);
+  border: 1px solid var(--state-marked-border);
+  color: var(--state-marked);
   border-radius: var(--radius-md);
   padding: var(--space-3);
   font-size: var(--text-sm);
-  margin-bottom: var(--space-5);
 }
 
-.actions {
+.footer {
   display: flex;
   justify-content: flex-end;
-  gap: var(--space-3);
-}
-
-.cancelButton {
-  background: none;
-  border: 1px solid var(--border-strong);
-  color: var(--text-secondary);
-  border-radius: var(--radius-md);
+  gap: var(--space-2);
   padding: var(--space-3) var(--space-4);
-  cursor: pointer;
+  background: var(--surface-chrome);
+  border-top: 1px solid var(--border-hairline);
 }
 
-.cancelButton:hover {
-  color: var(--text-primary);
-}
-
-.confirmButton {
+.primaryButton {
   background: var(--accent);
   color: var(--text-on-accent);
-  border: none;
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--accent-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
   font-weight: 600;
   cursor: pointer;
 }
 
-.confirmButton:hover {
+.primaryButton:hover {
   background: var(--accent-strong);
+}
+
+.secondaryButton {
+  background: var(--surface-content);
+  color: var(--text-primary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-4);
+  font-size: var(--text-sm);
+  cursor: pointer;
+}
+
+.secondaryButton:hover {
+  background: var(--surface-hover);
 }

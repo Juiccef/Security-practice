@@ -1,0 +1,117 @@
+.chart {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.row,
+.axisRow {
+  display: grid;
+  grid-template-columns: 15rem 1fr 3.5rem;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+@media (max-width: 44rem) {
+  .row,
+  .axisRow {
+    grid-template-columns: 1fr 3.5rem;
+  }
+
+  .row .label {
+    grid-column: 1 / -1;
+    margin-bottom: calc(var(--space-1) * -1);
+  }
+
+  .axisRow .label {
+    display: none;
+  }
+}
+
+.label {
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+}
+
+.track {
+  position: relative;
+  display: flex;
+  height: 20px;
+  border: 1px solid var(--border-hairline);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--surface-inset);
+}
+
+.fillCorrect {
+  background: var(--state-correct);
+  height: 100%;
+}
+
+.fillIncorrect {
+  background: var(--state-incorrect);
+  opacity: 0.55;
+  height: 100%;
+}
+
+.passLine {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: var(--text-primary);
+}
+
+.counts {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  text-align: right;
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1px;
+}
+
+.tick {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  margin-top: var(--space-2);
+}
+
+.legendSwatchCorrect,
+.legendSwatchIncorrect,
+.legendPassLine {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  margin-left: var(--space-3);
+}
+
+.legendSwatchCorrect {
+  background: var(--state-correct);
+  margin-left: 0;
+}
+
+.legendSwatchIncorrect {
+  background: var(--state-incorrect);
+  opacity: 0.55;
+}
+
+.legendPassLine {
+  width: 2px;
+  height: 14px;
+  background: var(--text-primary);
+  border-radius: 0;
+}

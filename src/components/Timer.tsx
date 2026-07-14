@@ -13,7 +13,7 @@ export default function Timer({ secondsRemaining }: Props) {
 
   return (
     <div className={styles.timer} data-urgency={urgency} role="timer" aria-label="Time remaining">
-      <span className={styles.dot} aria-hidden="true" />
+      <span className={styles.label}>Time Remaining</span>
       <span className={`${styles.display} mono-figure`}>{display}</span>
     </div>
   );

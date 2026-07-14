@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import type { Attempt, Question } from "../lib/types";
 import { isAnswered, isCorrect } from "../lib/attempt";
 import AnswerChoiceList from "./AnswerChoiceList";
+import ExplanationPanel from "./ExplanationPanel";
 import styles from "./ReviewList.module.css";
 
 interface Props {
@@ -12,62 +13,86 @@ interface Props {
 
 export default function ReviewList({ questionIds, bank, attempt }: Props) {
   const byId = new Map(bank.map((q) => [q.id, q]));
-  const [openId, setOpenId] = useState<string | null>(questionIds[0] ?? null);
+  const [openId, setOpenId] = useState<string | null>(null);
 
   if (questionIds.length === 0) {
     return <p className={styles.empty}>No questions match this filter.</p>;
   }
 
   return (
-    <ul className={styles.list}>
-      {questionIds.map((qid) => {
-        const question = byId.get(qid);
-        const state = attempt.answers[qid];
-        if (!question || !state) return null;
-        const correct = isCorrect(question, state);
-        const answered = isAnswered(state);
-        const isOpen = openId === qid;
-        const overallIndex = attempt.questionIds.indexOf(qid);
+    <div className={styles.tableWrap}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th scope="col" className={styles.colItem}>Item</th>
+            <th scope="col" className={styles.colScore}>Score</th>
+            <th scope="col" className={styles.colMarked}>Marked</th>
+            <th scope="col">Question</th>
+            <th scope="col" className={styles.colCategory}>Category</th>
+          </tr>
+        </thead>
+        <tbody>
+          {questionIds.map((qid) => {
+            const question = byId.get(qid);
+            const state = attempt.answers[qid];
+            if (!question || !state) return null;
+            const answered = isAnswered(state);
+            const correct = isCorrect(question, state);
+            const isOpen = openId === qid;
+            const overallIndex = attempt.questionIds.indexOf(qid);
 
-        return (
-          <li key={qid} className={styles.item}>
-            <button
-              type="button"
-              className={styles.summaryRow}
-              onClick={() => setOpenId(isOpen ? null : qid)}
-              aria-expanded={isOpen}
-            >
-              <span className={`${styles.qNumber} mono-figure`}>{overallIndex + 1}</span>
-              <span className={styles.statusDot} data-status={!answered ? "unanswered" : correct ? "correct" : "incorrect"} />
-              <span className={styles.qStem}>{question.stem.split("\n")[0]}</span>
-              {state.flagged && <span className={styles.flagBadge}>Flagged</span>}
-              <span className={styles.chevron} data-open={isOpen} aria-hidden="true">
-                <svg width="14" height="14" viewBox="0 0 16 16">
-                  <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </span>
-            </button>
-
-            {isOpen && (
-              <div className={styles.detail}>
-                <p className={styles.fullStem}>{question.stem}</p>
-                {!answered && <p className={styles.unansweredNote}>You did not answer this question.</p>}
-                <AnswerChoiceList question={question} state={state} showFeedback onToggleChoice={() => {}} disabled />
-                {question.reference && (
-                  <a
-                    className={styles.referenceLink}
-                    href={question.reference.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {question.reference.label}
-                  </a>
+            return (
+              <Fragment key={qid}>
+                <tr
+                  className={styles.row}
+                  data-open={isOpen}
+                  onClick={() => setOpenId(isOpen ? null : qid)}
+                  aria-expanded={isOpen}
+                >
+                  <td className={`${styles.colItem} mono-figure`}>{overallIndex + 1}</td>
+                  <td className={styles.colScore}>
+                    {!answered ? (
+                      <span className={styles.scoreUnanswered}>Unanswered</span>
+                    ) : correct ? (
+                      <span className={styles.scoreCorrect}>Correct</span>
+                    ) : (
+                      <span className={styles.scoreIncorrect}>Incorrect</span>
+                    )}
+                  </td>
+                  <td className={styles.colMarked}>
+                    {state.flagged && (
+                      <span className={styles.markedCheck} aria-label="Marked">
+                        ✓
+                      </span>
+                    )}
+                  </td>
+                  <td className={styles.colQuestion}>{question.stem.split("\n")[0]}</td>
+                  <td className={styles.colCategory}>
+                    {question.domain.number}.0 {question.domain.name}
+                  </td>
+                </tr>
+                {isOpen && (
+                  <tr className={styles.detailRow}>
+                    <td colSpan={5}>
+                      <div className={styles.detail}>
+                        <p className={styles.fullStem}>{question.stem}</p>
+                        <AnswerChoiceList
+                          question={question}
+                          state={state}
+                          showFeedback
+                          onToggleChoice={() => {}}
+                          disabled
+                        />
+                        <ExplanationPanel question={question} state={state} />
+                      </div>
+                    </td>
+                  </tr>
                 )}
-              </div>
-            )}
-          </li>
-        );
-      })}
-    </ul>
+              </Fragment>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }

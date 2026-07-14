@@ -1,67 +1,63 @@
 /*
-  Design system: "Console". The practice exam should feel like the
-  security-operations tooling the certification is training you to use:
-  a dim, focused terminal where color is spent only on what matters
-  (correct / incorrect / flagged / current). Everything else stays quiet
-  graphite and paper-white so those four signals are unmistakable.
+  Design system: "Exam Environment". Modeled on Boson ExSim / the Boson Exam
+  Environment: a light, clinical testing application. White content on cool
+  gray, thin 1px borders, one utilitarian blue for chrome and actions, and
+  saturated color reserved for verdicts only (correct / incorrect / marked).
+  Dark theme is a token-level override selected via data-theme on <html>.
 */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* ---- Surfaces (graphite, never flat black) ---- */
-  --surface-canvas: #0f131a;
-  --surface-raised: #171d27;
-  --surface-overlay: #1e2531;
-  --surface-sunken: #0b0e13;
-  --surface-hover: #232b38;
+  /* ---- Surfaces ---- */
+  --surface-canvas: #eef1f5;
+  --surface-content: #ffffff;
+  --surface-chrome: #f7f9fb;
+  --surface-inset: #f1f4f7;
+  --surface-hover: #e9eef4;
+  --surface-selected: #ddeafb;
 
   /* ---- Borders ---- */
-  --border-hairline: #2a323f;
-  --border-strong: #3d4756;
+  --border-hairline: #c8d1db;
+  --border-strong: #9aa8b6;
 
   /* ---- Text ---- */
-  --text-primary: #edeff3;
-  --text-secondary: #9aa4b5;
-  --text-tertiary: #616b7a;
-  --text-on-accent: #08252b;
+  --text-primary: #16202b;
+  --text-secondary: #4d5b6a;
+  --text-tertiary: #7c8894;
+  --text-on-accent: #ffffff;
 
-  /* ---- Structural accent: muted, used for chrome only (never "the neon") ---- */
-  --accent: #5b8ab0;
-  --accent-strong: #86b3d6;
-  --accent-soft-bg: rgba(91, 138, 176, 0.14);
-  --accent-border: rgba(91, 138, 176, 0.4);
+  /* ---- Chrome accent: exam blue ---- */
+  --accent: #1265ae;
+  --accent-strong: #0e5190;
+  --accent-soft-bg: #e3eefa;
+  --accent-border: #8db4d9;
 
-  /* ---- Semantic state colors: the ONLY saturated colors in the system ---- */
-  --state-correct: #3fb27f;
-  --state-correct-bg: rgba(63, 178, 127, 0.14);
-  --state-correct-border: rgba(63, 178, 127, 0.45);
+  /* ---- Verdict colors: the only saturated color in the system ---- */
+  --state-correct: #1d8043;
+  --state-correct-bg: #e2f3e8;
+  --state-correct-border: #93c9a6;
 
-  --state-incorrect: #e35d62;
-  --state-incorrect-bg: rgba(227, 93, 98, 0.14);
-  --state-incorrect-border: rgba(227, 93, 98, 0.45);
+  --state-incorrect: #c3362b;
+  --state-incorrect-bg: #fbe7e5;
+  --state-incorrect-border: #e0a49e;
 
-  --state-flagged: #e0a730;
-  --state-flagged-bg: rgba(224, 167, 48, 0.14);
-  --state-flagged-border: rgba(224, 167, 48, 0.48);
-
-  --state-current: #4fd1e5;
-  --state-current-bg: rgba(79, 209, 229, 0.14);
-  --state-current-border: rgba(79, 209, 229, 0.55);
+  --state-marked: #b07d10;
+  --state-marked-bg: #fdf3dc;
+  --state-marked-border: #ddbd7d;
 
   /* ---- Typography ---- */
-  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
-  --font-body: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-ui: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.8125rem;
-  --text-base: 0.9375rem;
-  --text-md: 1.0625rem;
+  --text-base: 0.875rem;
+  --text-md: 1rem;
+  --text-question: 1.0625rem;
   --text-lg: 1.25rem;
-  --text-xl: 1.625rem;
-  --text-2xl: 2.125rem;
-  --text-3xl: 3rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
 
   /* ---- Spacing ---- */
   --space-1: 0.25rem;
@@ -71,17 +67,56 @@
   --space-5: 1.5rem;
   --space-6: 2rem;
   --space-7: 3rem;
-  --space-8: 4rem;
 
   /* ---- Shape ---- */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 14px;
-  --radius-pill: 999px;
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-lg: 6px;
 
-  /* ---- Elevation ---- */
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 28px -12px rgba(0, 0, 0, 0.55);
-  --shadow-modal: 0 4px 12px rgba(0, 0, 0, 0.4), 0 32px 64px -16px rgba(0, 0, 0, 0.7);
+  /* ---- Elevation (modal only) ---- */
+  --shadow-modal: 0 6px 24px rgba(22, 32, 43, 0.22);
+  --overlay-scrim: rgba(22, 32, 43, 0.45);
 
-  --focus-ring: 0 0 0 2px var(--surface-canvas), 0 0 0 4px var(--state-current);
+  --focus-ring: 0 0 0 2px var(--surface-content), 0 0 0 4px var(--accent);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface-canvas: #171b21;
+  --surface-content: #1f242c;
+  --surface-chrome: #242a33;
+  --surface-inset: #1a1f26;
+  --surface-hover: #2b323d;
+  --surface-selected: #23405e;
+
+  --border-hairline: #39424e;
+  --border-strong: #566374;
+
+  --text-primary: #e8ecf1;
+  --text-secondary: #a3aeba;
+  --text-tertiary: #6f7b88;
+  --text-on-accent: #ffffff;
+
+  --accent: #4290d6;
+  --accent-strong: #63a7e3;
+  --accent-soft-bg: #1e3a54;
+  --accent-border: #35618c;
+
+  --state-correct: #4cb371;
+  --state-correct-bg: #1d3527;
+  --state-correct-border: #33684a;
+
+  --state-incorrect: #e06158;
+  --state-incorrect-bg: #3d221f;
+  --state-incorrect-border: #7a3a34;
+
+  --state-marked: #d9a33c;
+  --state-marked-bg: #382d15;
+  --state-marked-border: #705a26;
+
+  --shadow-modal: 0 6px 24px rgba(0, 0, 0, 0.55);
+  --overlay-scrim: rgba(0, 0, 0, 0.6);
+
+  --focus-ring: 0 0 0 2px var(--surface-content), 0 0 0 4px var(--accent);
 }

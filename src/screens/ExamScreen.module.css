@@ -4,247 +4,235 @@
   flex-direction: column;
 }
 
-.header {
-  position: sticky;
-  top: 0;
+/* ---- Band 1: title bar ---- */
+.titleBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.examTitle {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--text-on-accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titleBarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.modeLabel {
+  font-size: var(--text-sm);
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.titleBarRight :global(button) {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: var(--text-on-accent);
+}
+
+.titleBarRight :global(button:hover) {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-on-accent);
+}
+
+.exitButton {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-sm);
+  color: var(--text-on-accent);
+  font-size: var(--text-sm);
+  padding: var(--space-1) var(--space-3);
+  cursor: pointer;
+}
+
+.exitButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---- Band 2: question toolbar (status row) ---- */
+.questionToolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface-chrome);
+  border-bottom: 1px solid var(--border-hairline);
+  font-size: var(--text-sm);
+}
+
+.itemCounter {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.runningScore {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.selectHint {
+  color: var(--state-marked);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 1rem;
+  background: var(--border-hairline);
+  flex-shrink: 0;
+}
+
+.toolbarSpacer {
+  flex: 1;
+}
+
+.markControl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.markControl input {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--state-marked);
+  margin: 0;
+}
+
+.markControl:has(input:checked) {
+  color: var(--state-marked);
+  font-weight: 600;
+}
+
+/* ---- Content ---- */
+.content {
+  flex: 1;
+  width: 100%;
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-4) calc(var(--space-7) + var(--space-5));
+}
+
+/* ---- Band 3: bottom exam toolbar ---- */
+.examToolbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
-  padding: var(--space-3) var(--space-5);
-  background: var(--surface-raised);
-  border-bottom: 1px solid var(--border-hairline);
-}
-
-.headerLeft,
-.headerRight {
-  display: flex;
-  align-items: center;
   gap: var(--space-3);
-  min-width: 0;
-}
-
-.showOnCompact {
-  display: none;
-}
-
-.headerCenter {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.exitButton {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  cursor: pointer;
-  font-size: var(--text-sm);
-  padding: var(--space-2);
-}
-
-.exitButton:hover {
-  color: var(--text-primary);
-}
-
-.modeBadge {
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: var(--space-1) var(--space-3);
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--border-hairline);
-  color: var(--text-secondary);
-}
-
-.modeBadge[data-mode="timed"] {
-  color: var(--state-flagged);
-  border-color: var(--state-flagged-border);
-  background: var(--state-flagged-bg);
-}
-
-.progress {
-  font-size: var(--text-base);
-  color: var(--text-primary);
-}
-
-.progressOf {
-  color: var(--text-tertiary);
-}
-
-.paletteToggle {
-  display: none;
-  align-items: center;
-  gap: var(--space-2);
-  background: none;
-  border: 1px solid var(--border-hairline);
-  color: var(--text-secondary);
-  border-radius: var(--radius-md);
-  padding: var(--space-2) var(--space-3);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.submitButton {
-  background: var(--surface-overlay);
-  border: 1px solid var(--border-strong);
-  color: var(--text-primary);
-  border-radius: var(--radius-md);
   padding: var(--space-2) var(--space-4);
-  font-weight: 500;
-  cursor: pointer;
+  background: var(--surface-chrome);
+  border-top: 1px solid var(--border-hairline);
 }
 
-.submitButton:hover {
-  border-color: var(--accent);
-  color: var(--accent-strong);
-}
-
-.body {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 17rem 1fr;
-  gap: var(--space-5);
-  padding: var(--space-5);
-  max-width: 78rem;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.paletteRail {
-  min-height: 0;
-}
-
-.main {
+.toolbarGroup {
   display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  min-width: 0;
+  gap: var(--space-2);
 }
 
-.navBar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-4);
-}
-
-.navHint {
-  font-size: var(--text-xs);
-  color: var(--text-tertiary);
-  text-align: center;
-  flex: 1;
-}
-
-.navButton,
-.navButtonPrimary {
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-5);
-  font-weight: 600;
-  cursor: pointer;
-  font-size: var(--text-base);
-}
-
-.navButton {
-  background: none;
+.toolbarButton {
+  background: var(--surface-content);
   border: 1px solid var(--border-strong);
-  color: var(--text-secondary);
-}
-
-.navButton:hover:not(:disabled) {
+  border-radius: var(--radius-sm);
   color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.navButton:disabled {
-  opacity: 0.35;
+.toolbarButton:hover:not(:disabled) {
+  background: var(--surface-hover);
+}
+
+.toolbarButton:disabled {
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
-.navButtonPrimary {
+.toolbarButtonPrimary {
   background: var(--accent);
-  border: none;
+  border: 1px solid var(--accent-strong);
+  border-radius: var(--radius-sm);
   color: var(--text-on-accent);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  white-space: nowrap;
 }
 
-.navButtonPrimary:hover {
+.toolbarButtonPrimary:hover {
   background: var(--accent-strong);
 }
 
-@media (max-width: 56rem) {
-  .body {
-    grid-template-columns: 1fr;
-    padding: var(--space-4);
-  }
+.keyHint {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  text-align: center;
+}
 
-  .paletteToggle {
-    display: inline-flex;
-  }
-
-  .navHint {
+/* ---- Compact widths ---- */
+@media (max-width: 48rem) {
+  .keyHint {
     display: none;
-  }
-
-  .paletteRail {
-    display: none;
-  }
-
-  .paletteRailOpen {
-    display: block;
-    position: fixed;
-    inset: 6.5rem var(--space-4) auto;
-    max-height: 70vh;
-    z-index: 20;
   }
 }
 
-/* Below this width the header can't fit exit / mode / progress / timer /
-   palette / submit on one line -- wrap it into two explicit rows instead of
-   letting content overflow. */
 @media (max-width: 34rem) {
-  .header {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas: "left right" "center center";
+  .modeLabel {
+    display: none;
+  }
+
+  .questionToolbar {
+    row-gap: var(--space-1);
+  }
+
+  .examToolbar {
+    flex-wrap: wrap;
+    justify-content: center;
     row-gap: var(--space-2);
+  }
+
+  .toolbarGroup {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .toolbarButton,
+  .toolbarButtonPrimary {
     padding: var(--space-2) var(--space-3);
   }
 
-  .headerLeft {
-    grid-area: left;
-  }
-
-  .headerRight {
-    grid-area: right;
-    justify-self: end;
-    gap: var(--space-2);
-  }
-
-  .headerCenter {
-    grid-area: center;
-  }
-
-  .modeBadge {
-    display: none;
-  }
-
-  .hideOnCompact {
-    display: none;
-  }
-
-  .showOnCompact {
-    display: inline;
-  }
-
-  .paletteToggle {
-    padding: var(--space-2);
-  }
-
-  .submitButton {
-    padding: var(--space-2) var(--space-3);
+  /* The wrapped toolbar can be two rows tall; keep the content clear of it. */
+  .content {
+    padding-bottom: calc(var(--space-7) + var(--space-7));
   }
 }

@@ -3,6 +3,7 @@ import type { Attempt, Domain, Question, SetupConfig } from "../lib/types";
 import { domainsFromBank } from "../lib/questionBank";
 import { filterBank } from "../lib/attempt";
 import HistoryPanel from "../components/HistoryPanel";
+import ThemeToggle from "../components/ThemeToggle";
 import styles from "./SetupScreen.module.css";
 
 interface Props {
@@ -32,6 +33,8 @@ export default function SetupScreen({
   const [domainFilter, setDomainFilter] = useState<number[] | null>(null);
   const [randomizeQuestions, setRandomizeQuestions] = useState(true);
   const [randomizeChoices, setRandomizeChoices] = useState(true);
+  const [showRunningScore, setShowRunningScore] = useState(true);
+  const [showSelectCount, setShowSelectCount] = useState(true);
   const [timeLimitMinutes, setTimeLimitMinutes] = useState(DEFAULT_TIME_LIMIT);
   const [passMarkPercent, setPassMarkPercent] = useState(DEFAULT_PASS_MARK);
 
@@ -60,7 +63,7 @@ export default function SetupScreen({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const config: SetupConfig = {
+    onStart({
       mode,
       questionCount: effectiveCount,
       randomizeQuestions,
@@ -68,114 +71,81 @@ export default function SetupScreen({
       domainFilter,
       timeLimitMinutes,
       passMarkPercent,
-    };
-    onStart(config);
+      showRunningScore,
+      showSelectCount,
+    });
   }
 
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <div className={styles.wordmark}>
-          <span className={styles.wordmarkIcon} aria-hidden="true">
-            <svg viewBox="0 0 32 32" width="22" height="22">
-              <path
-                d="M16 3.5 26 7.5v9.1c0 7.2-4.4 12.4-10 15.1-5.6-2.7-10-7.9-10-15.1V7.5L16 3.5Z"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.6"
-              />
-              <path
-                d="M11 16.4l3.2 3.2L21.4 12.6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-          Console
-        </div>
-        <p className={styles.tagline}>Practice exam simulator for CompTIA Security+ SY0-701</p>
+      <header className={styles.titleBar}>
+        <h1 className={styles.title}>Security+ SY0-701 Practice Exams</h1>
+        <ThemeToggle />
       </header>
 
-      {savedInProgress && (
-        <div className={styles.resumeBanner}>
-          <div>
-            <p className={styles.resumeLabel}>Exam in progress</p>
-            <p className={styles.resumeDetail}>
-              {savedInProgress.config.mode === "timed" ? "Timed exam" : "Practice mode"}, question{" "}
-              {savedInProgress.currentIndex + 1} of {savedInProgress.questionIds.length}
-            </p>
-          </div>
-          <div className={styles.resumeActions}>
-            <button type="button" className={styles.ghostButton} onClick={onDiscardSaved}>
-              Discard
-            </button>
-            <button type="button" className={styles.primaryButton} onClick={onResume}>
-              Resume exam
-            </button>
-          </div>
-        </div>
-      )}
-
-      <div className={styles.layout}>
-        <form id="exam-setup-form" className={styles.form} onSubmit={handleSubmit}>
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Mode</h2>
-            <div className={styles.modeGrid}>
-              <button
-                type="button"
-                className={`${styles.modeCard} ${mode === "practice" ? styles.modeCardActive : ""}`}
-                onClick={() => setMode("practice")}
-                aria-pressed={mode === "practice"}
-              >
-                <span className={styles.modeCardTitle}>Practice</span>
-                <span className={styles.modeCardDesc}>
-                  See whether each answer is right the moment you submit it, with an explanation
-                  for every choice.
-                </span>
+      <div className={styles.body}>
+        {savedInProgress && (
+          <div className={styles.resumeBanner}>
+            <div>
+              <p className={styles.resumeLabel}>Exam in progress</p>
+              <p className={styles.resumeDetail}>
+                {savedInProgress.config.mode === "timed" ? "Simulation Mode" : "Study Mode"},
+                question {savedInProgress.currentIndex + 1} of {savedInProgress.questionIds.length}
+              </p>
+            </div>
+            <div className={styles.resumeActions}>
+              <button type="button" className={styles.secondaryButton} onClick={onDiscardSaved}>
+                Discard
               </button>
-              <button
-                type="button"
-                className={`${styles.modeCard} ${mode === "timed" ? styles.modeCardActive : ""}`}
-                onClick={() => setMode("timed")}
-                aria-pressed={mode === "timed"}
-              >
-                <span className={styles.modeCardTitle}>Timed exam</span>
-                <span className={styles.modeCardDesc}>
-                  Feedback is withheld until you submit the full exam, just like the real thing.
-                </span>
+              <button type="button" className={styles.primaryButton} onClick={onResume}>
+                Resume Exam
               </button>
             </div>
-          </section>
+          </div>
+        )}
 
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Domains</h2>
-            <p className={styles.sectionHint}>
-              Leave every domain selected to draw from the full bank, or narrow it down to focus
-              your review.
-            </p>
-            <div className={styles.domainList}>
-              {domains.map((d) => (
-                <DomainRow
-                  key={d.number}
-                  domain={d}
-                  active={isDomainActive(d.number)}
-                  count={bank.filter((q) => q.domain.number === d.number).length}
-                  onToggle={() => toggleDomain(d.number)}
-                />
-              ))}
-            </div>
-          </section>
+        <form className={styles.panel} onSubmit={handleSubmit}>
+          <fieldset className={styles.fieldset}>
+            <legend className={styles.legend}>Exam Mode</legend>
+            <label className={styles.modeRow} data-active={mode === "practice"}>
+              <input
+                type="radio"
+                name="mode"
+                checked={mode === "practice"}
+                onChange={() => setMode("practice")}
+              />
+              <span className={styles.modeText}>
+                <span className={styles.modeName}>Study Mode</span>
+                <span className={styles.modeDesc}>
+                  View answers and explanations while you work through the exam. No forced time
+                  limit.
+                </span>
+              </span>
+            </label>
+            <label className={styles.modeRow} data-active={mode === "timed"}>
+              <input
+                type="radio"
+                name="mode"
+                checked={mode === "timed"}
+                onChange={() => setMode("timed")}
+              />
+              <span className={styles.modeText}>
+                <span className={styles.modeName}>Simulation Mode</span>
+                <span className={styles.modeDesc}>
+                  Simulates the live exam: timed, with answers and explanations withheld until the
+                  exam is graded.
+                </span>
+              </span>
+            </label>
+          </fieldset>
 
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Questions</h2>
+          <fieldset className={styles.fieldset}>
+            <legend className={styles.legend}>Questions</legend>
             <div className={styles.fieldRow}>
               <label className={styles.fieldLabel} htmlFor="questionCount">
                 Number of questions
               </label>
-              <div className={styles.stepper}>
+              <div className={styles.sliderGroup}>
                 <input
                   id="questionCount"
                   type="range"
@@ -185,12 +155,27 @@ export default function SetupScreen({
                   value={effectiveCount}
                   onChange={(e) => setQuestionCount(Number(e.target.value))}
                 />
-                <output className={`${styles.stepperValue} mono-figure`}>{effectiveCount}</output>
+                <output className={`${styles.sliderValue} mono-figure`}>{effectiveCount}</output>
               </div>
             </div>
-            <p className={styles.sectionHint}>{poolSize} questions available with this filter.</p>
+            <p className={styles.hint}>{poolSize} questions available with this category filter.</p>
 
-            <label className={styles.checkboxRow}>
+            <div className={styles.categoryList}>
+              {domains.map((d) => (
+                <CategoryRow
+                  key={d.number}
+                  domain={d}
+                  active={isDomainActive(d.number)}
+                  count={bank.filter((q) => q.domain.number === d.number).length}
+                  onToggle={() => toggleDomain(d.number)}
+                />
+              ))}
+            </div>
+          </fieldset>
+
+          <fieldset className={styles.fieldset}>
+            <legend className={styles.legend}>Options</legend>
+            <label className={styles.checkRow}>
               <input
                 type="checkbox"
                 checked={randomizeQuestions}
@@ -198,19 +183,33 @@ export default function SetupScreen({
               />
               Randomize question order
             </label>
-            <label className={styles.checkboxRow}>
+            <label className={styles.checkRow}>
               <input
                 type="checkbox"
                 checked={randomizeChoices}
                 onChange={(e) => setRandomizeChoices(e.target.checked)}
               />
-              Randomize answer choice order
+              Randomize answer order
             </label>
-          </section>
+            <label className={styles.checkRow} data-disabled={mode !== "practice"}>
+              <input
+                type="checkbox"
+                checked={showRunningScore}
+                disabled={mode !== "practice"}
+                onChange={(e) => setShowRunningScore(e.target.checked)}
+              />
+              Show current score during exam (Study Mode)
+            </label>
+            <label className={styles.checkRow}>
+              <input
+                type="checkbox"
+                checked={showSelectCount}
+                onChange={(e) => setShowSelectCount(e.target.checked)}
+              />
+              Show the number of answers needed
+            </label>
 
-          {mode === "timed" && (
-            <section className={styles.section}>
-              <h2 className={styles.sectionTitle}>Timing</h2>
+            {mode === "timed" && (
               <div className={styles.fieldRow}>
                 <label className={styles.fieldLabel} htmlFor="timeLimit">
                   Time limit (minutes)
@@ -222,17 +221,16 @@ export default function SetupScreen({
                   min={10}
                   max={240}
                   value={timeLimitMinutes}
-                  onChange={(e) => setTimeLimitMinutes(Number(e.target.value) || DEFAULT_TIME_LIMIT)}
+                  onChange={(e) =>
+                    setTimeLimitMinutes(Number(e.target.value) || DEFAULT_TIME_LIMIT)
+                  }
                 />
               </div>
-            </section>
-          )}
+            )}
 
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Scoring</h2>
             <div className={styles.fieldRow}>
               <label className={styles.fieldLabel} htmlFor="passMark">
-                Pass mark (%)
+                Passing score (%)
               </label>
               <input
                 id="passMark"
@@ -244,55 +242,36 @@ export default function SetupScreen({
                 onChange={(e) => setPassMarkPercent(Number(e.target.value) || DEFAULT_PASS_MARK)}
               />
             </div>
-          </section>
-        </form>
+          </fieldset>
 
-        <aside className={styles.ticket}>
-          <div className={styles.ticketBody}>
-            <p className={styles.ticketEyebrow}>Admission</p>
-            <h3 className={styles.ticketTitle}>SY0-701 Practice Exam</h3>
-            <dl className={styles.ticketRows}>
-              <div className={styles.ticketRow}>
-                <dt>Mode</dt>
-                <dd>{mode === "timed" ? "Timed exam" : "Practice"}</dd>
-              </div>
-              <div className={styles.ticketRow}>
-                <dt>Questions</dt>
-                <dd className="mono-figure">{effectiveCount}</dd>
-              </div>
-              <div className={styles.ticketRow}>
-                <dt>Time limit</dt>
-                <dd className="mono-figure">{mode === "timed" ? `${timeLimitMinutes} min` : "None"}</dd>
-              </div>
-              <div className={styles.ticketRow}>
-                <dt>Pass mark</dt>
-                <dd className="mono-figure">{passMarkPercent}%</dd>
-              </div>
-              <div className={styles.ticketRow}>
-                <dt>Domains</dt>
-                <dd>{domainFilter === null ? "All" : `${domainFilter.length} selected`}</dd>
-              </div>
-            </dl>
-          </div>
-          <div className={styles.ticketStub}>
-            <button
-              type="submit"
-              form="exam-setup-form"
-              className={styles.beginButton}
-              disabled={effectiveCount === 0}
-            >
-              Begin exam
+          <div className={styles.summaryBox}>
+            <p className={styles.summaryTitle}>Current settings</p>
+            <p className={styles.summaryText}>
+              {mode === "timed" ? "Simulation Mode" : "Study Mode"} /{" "}
+              <span className="mono-figure">{effectiveCount}</span> questions /{" "}
+              {domainFilter === null ? "all categories" : `${domainFilter.length} categories`} /{" "}
+              {mode === "timed" ? (
+                <>
+                  <span className="mono-figure">{timeLimitMinutes}</span> minute limit /{" "}
+                </>
+              ) : (
+                "no time limit / "
+              )}
+              passing score <span className="mono-figure">{passMarkPercent}%</span>
+            </p>
+            <button type="submit" className={styles.beginButton} disabled={effectiveCount === 0}>
+              Begin Exam
             </button>
           </div>
-        </aside>
-      </div>
+        </form>
 
-      <HistoryPanel bank={bank} history={history} onView={onViewHistoryAttempt} />
+        <HistoryPanel bank={bank} history={history} onView={onViewHistoryAttempt} />
+      </div>
     </div>
   );
 }
 
-function DomainRow({
+function CategoryRow({
   domain,
   active,
   count,
@@ -304,12 +283,12 @@ function DomainRow({
   onToggle: () => void;
 }) {
   return (
-    <label className={styles.domainRow} data-active={active}>
+    <label className={styles.categoryRow} data-active={active}>
       <input type="checkbox" checked={active} onChange={onToggle} />
-      <span className={styles.domainName}>
+      <span className={styles.categoryName}>
         {domain.number}.0 {domain.name}
       </span>
-      <span className={`${styles.domainCount} mono-figure`}>{count}</span>
+      <span className={`${styles.categoryCount} mono-figure`}>{count}</span>
     </label>
   );
 }

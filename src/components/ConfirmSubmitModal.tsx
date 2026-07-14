@@ -31,48 +31,60 @@ export default function ConfirmSubmitModal({
 
   return (
     <div className={styles.overlay} role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-      <div className={styles.modal}>
-        <h2 id="confirm-title" className={styles.title}>
-          Submit this exam?
-        </h2>
-        <p className={styles.body}>
-          Once submitted, you cannot change your answers. Here is where things stand:
-        </p>
+      <div className={styles.dialog}>
+        <header className={styles.header}>
+          <h2 id="confirm-title" className={styles.title}>
+            End and Grade Exam
+          </h2>
+        </header>
 
-        <dl className={styles.stats}>
-          <div className={styles.stat}>
-            <dt>Answered</dt>
-            <dd className="mono-figure">{answeredCount}</dd>
-          </div>
-          <div className={styles.stat} data-warn={unansweredCount > 0}>
-            <dt>Unanswered</dt>
-            <dd className="mono-figure">{unansweredCount}</dd>
-          </div>
-          <div className={styles.stat} data-flag={flaggedCount > 0}>
-            <dt>Flagged</dt>
-            <dd className="mono-figure">{flaggedCount}</dd>
-          </div>
-          <div className={styles.stat}>
-            <dt>Total</dt>
-            <dd className="mono-figure">{totalCount}</dd>
-          </div>
-        </dl>
-
-        {unansweredCount > 0 && (
-          <p className={styles.warning}>
-            {unansweredCount} question{unansweredCount === 1 ? "" : "s"} still unanswered will be
-            scored as incorrect.
+        <div className={styles.body}>
+          <p className={styles.lead}>
+            Once graded, you cannot change your answers. Here is where things stand:
           </p>
-        )}
 
-        <div className={styles.actions}>
-          <button type="button" className={styles.cancelButton} onClick={onCancel}>
-            Keep reviewing
-          </button>
-          <button type="button" className={styles.confirmButton} onClick={onConfirm} ref={confirmRef}>
-            Submit exam
-          </button>
+          <table className={styles.statsTable}>
+            <tbody>
+              <tr>
+                <th scope="row">Answered</th>
+                <td className="mono-figure">{answeredCount}</td>
+              </tr>
+              <tr data-warn={unansweredCount > 0}>
+                <th scope="row">Unanswered</th>
+                <td className="mono-figure">{unansweredCount}</td>
+              </tr>
+              <tr>
+                <th scope="row">Marked for review</th>
+                <td className="mono-figure">{flaggedCount}</td>
+              </tr>
+              <tr>
+                <th scope="row">Total</th>
+                <td className="mono-figure">{totalCount}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          {unansweredCount > 0 && (
+            <p className={styles.warning}>
+              {unansweredCount} unanswered question{unansweredCount === 1 ? "" : "s"} will be scored
+              as incorrect.
+            </p>
+          )}
         </div>
+
+        <footer className={styles.footer}>
+          <button type="button" className={styles.secondaryButton} onClick={onCancel}>
+            Return to Exam
+          </button>
+          <button
+            type="button"
+            className={styles.primaryButton}
+            onClick={onConfirm}
+            ref={confirmRef}
+          >
+            End and Grade Exam
+          </button>
+        </footer>
       </div>
     </div>
   );
